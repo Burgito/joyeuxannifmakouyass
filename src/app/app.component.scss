@@ -1,0 +1,113 @@
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  padding: 1em;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+
+  .first-color {
+    background: #fdfdc4;
+  }
+
+  .second-color {
+    background: #ffe8cf;
+  }
+
+  .third-color {
+    background: #ffdede;
+  }
+
+  .fourth-color {
+    background: #ccffec;
+  }
+
+  .controls {
+    display: flex;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    padding: 1em 0;
+    gap: 1em;
+
+    button {
+      position: relative;
+      padding: .5em;
+      border: none;
+      background-color: white;
+
+      i {
+        color: #d2ebcd;
+      }
+
+      .foreground {
+        z-index: 10;
+        display: block;
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        background-color: rgba(255, 255, 255, .5);
+        top: 0;
+        left: 0;
+      }
+    }
+  }
+
+  .content {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    border-radius: 5px;
+    overflow: hidden;
+
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 50;
+      pointer-events: none;
+      object-fit: cover;
+    }
+
+    .button-container {
+      width: 100%;
+    }
+
+    &.grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .button-container {
+      position: relative;
+    }
+
+    button {
+      height: 100%;
+      width: 100%;
+      border: none;
+
+      i {
+        opacity: .5;
+      }
+
+      .foreground {
+        z-index: 10;
+        display: block;
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        background-color: rgba(255, 255, 255, .3);
+        top: 0;
+        left: 0;
+      }
+
+      &:active {
+        .foreground {
+          background-color: rgba(255, 255, 255, .7);
+        }
+      }
+    }
+  }
+}
