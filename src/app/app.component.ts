@@ -3,24 +3,6 @@ import {RouterOutlet} from '@angular/router';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {animate, style, transition, trigger} from '@angular/animations';
 
-export const getStartRandomTransformRotate = () => {
-  const values = ['rotate(15deg)', 'rotate(-15deg)', 'rotate(65deg)', 'rotate(-75deg)', 'rotate(-135deg)']
-  const index = Math.floor(Math.random() * values.length);
-  return values[index];
-}
-
-export const getRandomRotationTransform = () => {
-  const values = ['rotate(15deg)', 'rotate(-15deg)', 'rotate(65deg)', 'rotate(-40deg)', 'rotate(180deg)', 'rotate(-180deg)']
-  const index = Math.floor(Math.random() * values.length);
-  return values[index];
-}
-
-export const getRandomTransformRotate = () => {
-  const values = ['rotate(180deg)', 'rotate(0deg)']
-  const index = Math.floor(Math.random() * values.length);
-  return values[index];
-}
-
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -30,13 +12,19 @@ export const getRandomTransformRotate = () => {
   animations: [
     trigger('fadeInOut', [
       transition(':enter', [
-        style({opacity: 0}),
-        animate('50ms', style({opacity: 1})),
-      ]),
+        style({opacity: 0,  transform: '{{startRotationParam}}'}),
+        animate('50ms', style({opacity: 1, transform: '{{startRotationParam}}'})),
+      ],  {params: {startRotationParam: 'rotate(180deg)'}}),
       transition(':leave', [
-        animate('2s', style({opacity: .9, transform: getRandomRotationTransform()}))
-      ])
+        animate('2s', style({opacity: .9, transform: '{{endRotationParam}}'}))
+      ],  {params: {endRotationParam: 'rotate(180deg)'}})
     ]),
+    trigger('fullRotate', [
+      transition(':enter', [
+        style({transform: 'rotate(0deg)'}),
+        animate('2s', style({transform: 'rotate(720deg)'}))
+      ])
+    ])
   ],
 })
 export class AppComponent {
@@ -48,9 +36,13 @@ export class AppComponent {
   randomPooClass = this.getRandomPooClass();
   animateImage = false;
   imgSrc = 'jamy1.jpg';
+  startRotationParam = 'rotate(-90deg)';
+  endRotationParam = 'rotate(90deg)';
 
   turnAnimation() {
     this.animateImage = !this.animateImage;
+    this.startRotationParam = this.getRandomRotationTransform();
+    this.endRotationParam = this.getRandomRotationTransform();
   }
 
   playAudio(index: number) {
@@ -93,6 +85,12 @@ export class AppComponent {
     const classes = ['poo', 'poo-storm'];
     const index = Math.floor(Math.random() * 2);
     return `fa-${classes[index]}`;
+  }
+
+  getRandomRotationTransform = () => {
+    const values = ['rotate(15deg)', 'rotate(-15deg)', 'rotate(65deg)', 'rotate(-40deg)', 'rotate(180deg)', 'rotate(-180deg)']
+    const index = Math.floor(Math.random() * values.length);
+    return values[index];
   }
 
 }

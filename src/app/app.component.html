@@ -1,63 +1,69 @@
 <main class="main">
-  <div class="controls">
-    <div>
-      <button class="cut" [ngClass]="cutPlay ? 'activated' : ''" (click)="cutPlay = !cutPlay">
-        <i class="fa-solid fa-scissors fa-4x"></i>
-        @if (!cutPlay) {
-          <span class="foreground"></span>
-        }
-      </button>
+  @defer () {
+    <div class="controls">
+      <div>
+        <button class="cut" [ngClass]="cutPlay ? 'activated' : ''" (click)="cutPlay = !cutPlay">
+          <i class="fa-solid fa-scissors fa-4x"></i>
+          @if (!cutPlay) {
+            <span class="foreground"></span>
+          }
+        </button>
+      </div>
+      <div>
+        <button class="shuffle" [ngClass]="shufflePlay ? 'activated' : ''" (click)="shufflePlay = !shufflePlay">
+          <i class="fa-solid fa-wand-magic-sparkles fa-4x"></i>
+          @if (!shufflePlay) {
+            <span class="foreground"></span>
+          }
+        </button>
+      </div>
     </div>
-    <div>
-      <button class="shuffle" [ngClass]="shufflePlay ? 'activated' : ''" (click)="shufflePlay = !shufflePlay">
-        <i class="fa-solid fa-wand-magic-sparkles fa-4x"></i>
-        @if (!shufflePlay) {
+    <div class="content" [ngClass]="shufflePlay ? 'shuffle' : 'grid'">
+      @if (animateImage) {
+        <img alt="" [ngSrc]="imgSrc" fill
+             [@fadeInOut]="{'value': true, 'params':{'endRotationParam': endRotationParam, 'startRotationParam': startRotationParam}}"
+             (@fadeInOut.done)="animateImage=false"/>
+      }
+      @if (shufflePlay) {
+        <div class="button-container">
+          <button [ngClass]="randomColorClass" (click)="playShuffle()">
+            <i class="fa-solid fa-4x"
+               [ngClass]="['first-color', 'third-color'].includes(randomColorClass) ? 'fa-poo' : 'fa-poo-storm'"></i>
+          </button>
+        </div>
+      } @else {
+        <div class="button-container">
+          <button class="first-color" (click)="playAudio(1)">
+            <span class="foreground"></span>
+            <i class="fa-solid fa-poo fa-4x"></i>
+          </button>
+        </div>
+        <div class="button-container">
           <span class="foreground"></span>
-        }
-      </button>
+          <button class="second-color" (click)="playAudio(2)">
+            <span class="foreground"></span>
+            <i class="fa-solid fa-poo-storm fa-4x"></i>
+          </button>
+        </div>
+        <div class="button-container">
+          <span class="foreground"></span>
+          <button class="third-color" (click)="playAudio(3)">
+            <span class="foreground"></span>
+            <i class="fa-solid fa-poo-storm fa-4x"></i>
+          </button>
+        </div>
+        <div class="button-container">
+          <span class="foreground"></span>
+          <button class="fourth-color" (click)="playAudio(4)">
+            <span class="foreground"></span>
+            <i class="fa-solid fa-poo fa-4x"></i>
+          </button>
+        </div>
+      }
     </div>
-  </div>
-  <div class="content" [ngClass]="shufflePlay ? 'shuffle' : 'grid'">
-    @if (animateImage) {
-      <img alt="" [ngSrc]="imgSrc" fill @fadeInOut (@fadeInOut.done)="animateImage=false"/>
-    }
-    @if (shufflePlay) {
-      <div class="button-container">
-        <button [ngClass]="randomColorClass" (click)="playShuffle()">
-          <i class="fa-solid fa-4x"
-             [ngClass]="['first-color', 'third-color'].includes(randomColorClass) ? 'fa-poo' : 'fa-poo-storm'"></i>
-        </button>
-      </div>
-    } @else {
-      <div class="button-container">
-        <button class="first-color" (click)="playAudio(1)">
-          <span class="foreground"></span>
-          <i class="fa-solid fa-poo fa-4x"></i>
-        </button>
-      </div>
-      <div class="button-container">
-        <span class="foreground"></span>
-        <button class="second-color" (click)="playAudio(2)">
-          <span class="foreground"></span>
-          <i class="fa-solid fa-poo-storm fa-4x"></i>
-        </button>
-      </div>
-      <div class="button-container">
-        <span class="foreground"></span>
-        <button class="third-color" (click)="playAudio(3)">
-          <span class="foreground"></span>
-          <i class="fa-solid fa-poo-storm fa-4x"></i>
-        </button>
-      </div>
-      <div class="button-container">
-        <span class="foreground"></span>
-        <button class="fourth-color" (click)="playAudio(4)">
-          <span class="foreground"></span>
-          <i class="fa-solid fa-poo fa-4x"></i>
-        </button>
-      </div>
-    }
-  </div>
+  } @placeholder (minimum 2s) {
+    <img alt="yohan qui tourne" [ngSrc]="'yoyo.jpg'" fill @fullRotate />
+  }
 </main>
 
 <router-outlet/>
